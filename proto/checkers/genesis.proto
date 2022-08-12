@@ -3,6 +3,7 @@ package mastervectormaster.checkers.checkers;
 
 import "gogoproto/gogo.proto";
 import "checkers/params.proto";
+import "checkers/next_game.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/mastervectormaster/checkers/x/checkers/types";
@@ -10,5 +11,6 @@ option go_package = "github.com/mastervectormaster/checkers/x/checkers/types";
 // GenesisState defines the checkers module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
+  NextGame nextGame = 2;
   // this line is used by starport scaffolding # genesis/proto/state
 }

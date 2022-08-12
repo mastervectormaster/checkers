@@ -29809,6 +29809,42 @@ paths:
           format: uint64
       tags:
         - Query
+  /mastervectormaster/checkers/checkers/next_game:
+    get:
+      summary: Queries a NextGame by index.
+      operationId: MastervectormasterCheckersCheckersNextGame
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              NextGame:
+                type: object
+                properties:
+                  idValue:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /mastervectormaster/checkers/checkers/params:
     get:
       summary: Parameters queries the parameters of the module.
@@ -51552,9 +51588,24 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  mastervectormaster.checkers.checkers.NextGame:
+    type: object
+    properties:
+      idValue:
+        type: string
+        format: uint64
   mastervectormaster.checkers.checkers.Params:
     type: object
     description: Params defines the parameters for the module.
+  mastervectormaster.checkers.checkers.QueryGetNextGameResponse:
+    type: object
+    properties:
+      NextGame:
+        type: object
+        properties:
+          idValue:
+            type: string
+            format: uint64
   mastervectormaster.checkers.checkers.QueryParamsResponse:
     type: object
     properties:

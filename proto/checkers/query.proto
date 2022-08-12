@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "checkers/params.proto";
+import "checkers/next_game.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/mastervectormaster/checkers/x/checkers/types";
@@ -15,7 +16,11 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/mastervectormaster/checkers/checkers/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a NextGame by index.
+	rpc NextGame(QueryGetNextGameRequest) returns (QueryGetNextGameResponse) {
+		option (google.api.http).get = "/mastervectormaster/checkers/checkers/next_game";
+	}
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -27,4 +32,9 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
+message QueryGetNextGameRequest {}
+
+message QueryGetNextGameResponse {
+	NextGame NextGame = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3

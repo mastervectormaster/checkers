@@ -1,0 +1,9 @@
+syntax = "proto3";
+package mastervectormaster.checkers.checkers;
+
+option go_package = "github.com/mastervectormaster/checkers/x/checkers/types";
+
+message NextGame {
+  uint64 idValue = 1; 
+  
+}

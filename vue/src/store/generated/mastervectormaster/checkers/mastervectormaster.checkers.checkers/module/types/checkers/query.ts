@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../checkers/params";
+import { NextGame } from "../checkers/next_game";
 
 export const protobufPackage = "mastervectormaster.checkers.checkers";
 
@@ -11,6 +12,12 @@ export interface QueryParamsRequest {}
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params: Params | undefined;
+}
+
+export interface QueryGetNextGameRequest {}
+
+export interface QueryGetNextGameResponse {
+  NextGame: NextGame | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -110,10 +117,130 @@ export const QueryParamsResponse = {
   },
 };
 
+const baseQueryGetNextGameRequest: object = {};
+
+export const QueryGetNextGameRequest = {
+  encode(_: QueryGetNextGameRequest, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetNextGameRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetNextGameRequest,
+    } as QueryGetNextGameRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGetNextGameRequest {
+    const message = {
+      ...baseQueryGetNextGameRequest,
+    } as QueryGetNextGameRequest;
+    return message;
+  },
+
+  toJSON(_: QueryGetNextGameRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<QueryGetNextGameRequest>
+  ): QueryGetNextGameRequest {
+    const message = {
+      ...baseQueryGetNextGameRequest,
+    } as QueryGetNextGameRequest;
+    return message;
+  },
+};
+
+const baseQueryGetNextGameResponse: object = {};
+
+export const QueryGetNextGameResponse = {
+  encode(
+    message: QueryGetNextGameResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.NextGame !== undefined) {
+      NextGame.encode(message.NextGame, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetNextGameResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetNextGameResponse,
+    } as QueryGetNextGameResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.NextGame = NextGame.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetNextGameResponse {
+    const message = {
+      ...baseQueryGetNextGameResponse,
+    } as QueryGetNextGameResponse;
+    if (object.NextGame !== undefined && object.NextGame !== null) {
+      message.NextGame = NextGame.fromJSON(object.NextGame);
+    } else {
+      message.NextGame = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetNextGameResponse): unknown {
+    const obj: any = {};
+    message.NextGame !== undefined &&
+      (obj.NextGame = message.NextGame
+        ? NextGame.toJSON(message.NextGame)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetNextGameResponse>
+  ): QueryGetNextGameResponse {
+    const message = {
+      ...baseQueryGetNextGameResponse,
+    } as QueryGetNextGameResponse;
+    if (object.NextGame !== undefined && object.NextGame !== null) {
+      message.NextGame = NextGame.fromPartial(object.NextGame);
+    } else {
+      message.NextGame = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a NextGame by index. */
+  NextGame(request: QueryGetNextGameRequest): Promise<QueryGetNextGameResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -129,6 +256,20 @@ export class QueryClientImpl implements Query {
       data
     );
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+  }
+
+  NextGame(
+    request: QueryGetNextGameRequest
+  ): Promise<QueryGetNextGameResponse> {
+    const data = QueryGetNextGameRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "mastervectormaster.checkers.checkers.Query",
+      "NextGame",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetNextGameResponse.decode(new Reader(data))
+    );
   }
 }
 
